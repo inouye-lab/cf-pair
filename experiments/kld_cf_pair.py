@@ -4,17 +4,16 @@ import wandb
 sweep_configuration = {
     "program": "main.py",
     "method": "grid",
-    "name": "CF_Pair",
+    "name": "CMNIST_CF_KLD",
     "metric": {
         "goal": "maximize",
         "name": "test_acc"
         },
     "parameters": {
-        "solver": {"values":["CF_Pair"]},
-        "param1": {"values":[1000]},
+        "solver": {"values":["KLD_CF_Pair"]},
+        "param1": {"values":[0.1, 1, 10, 100]},
         "lr": {"values":[1e-3]},
-        "feature_dimension": {"values":[512]},
-        "batch_size": {"values":[512]},
+        "batch_size": {"values":[128]},
         "epochs": {"values":[40]},
         "seed": {"values":[1001]},
         "split_scheme": {"values": ["official"]}

@@ -20,9 +20,6 @@ The main file function:
 """
 def main(args):
     hparam = vars(args)
-    training_angles = [int(item) for item in hparam['training_angles'].split(',')]
-
-    hparam['training_angles'] = training_angles
     wandb_project = WANDB_PROJECT + '_' + hparam['solver']
     # setup WanDB
     if not args.no_wandb:
@@ -33,6 +30,8 @@ def main(args):
     hparam['wandb'] = not args.no_wandb
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     hparam['device'] = device
+    hparam['n_domains'] = 5
+    hparam['image_shape'] = (1, 28, 28)
     seed = hparam['seed']
     set_seed(seed)
     solver = eval(hparam['solver'])(hparam)
@@ -43,14 +42,18 @@ if __name__ == "__main__":
     parser.add_argument('--no_wandb', default=False, action="store_true")
     parser.add_argument('--root', default="/local/scratch/a/bai116/datasets", action="store_true")
     parser.add_argument('--seed', default=1001, type=int)
+    parser.add_argument('--feature_dimension', default=1024, type=int)
+    parser.add_argument('--pair_path', type=str, default=None)
     parser.add_argument('--batch_size', default=1024, type=int)
-    parser.add_argument('--solver', default='ERM', choices=["ERM", "Pair_Augmentation"])
+    parser.add_argument('--solver', default='ERM')
     parser.add_argument('--epochs', default=40, type=int)
     parser.add_argument('--lr', default=1e-5, type=float)
-    parser.add_argument('--param', default=100, type=float)
-    parser.add_argument('--augmentation', default="cf", choices=["cf", "unpaired"])
-    parser.add_argument('--training_angles', type=str)
-    parser.add_argument('--test_angle', type=int)
+    parser.add_argument('--param1', default=100, type=float)
+    parser.add_argument('--param2', default=100, type=float)
+    parser.add_argument('--param3', default=0, type=float)
+    parser.add_argument('--split_scheme', type=str, default="official")
+    parser.add_argument('--k_spa', type=int, default=10)
+    parser.add_argument('--latent_dim', type=int, default=20)
+    parser.add_argument('--inter_dim', type=int, default=25)
     args = parser.parse_args()
     main(args)
-

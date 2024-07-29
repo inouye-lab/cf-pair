@@ -4,20 +4,18 @@ import wandb
 sweep_configuration = {
     "program": "main.py",
     "method": "grid",
-    "name": "ERM_random_seeds",
+    "name": "Oracle_random_seeds",
     "metric": {
         "goal": "maximize",
         "name": "test_acc"
         },
     "parameters": {
         "solver": {"values":["ERM"]},
-        "lr": {"values":[2e-4]},
-        
+        "lr": {"values":[1e-3]},
         "batch_size": {"values":[256]},
-        "feature_dimension": {"values":[512]},
-        "epochs": {"values":[20]},
-        "seed": {"values":[1001,1002,1003,1004,1005,1006,1007,1008,1009,1010]},
-        "split_scheme": {"values": ["official"]},
+        "epochs": {"values":[40]},
+        "seed": {"values":[1001]},
+        "split_scheme": {"values": ["oracle"]}
      }
 }
 
